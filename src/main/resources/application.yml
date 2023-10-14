@@ -1,0 +1,35 @@
+app:
+  currency: IDR
+  timezone: Asia/Jakarta
+  welcome-text: Hello World from Tedy, are you ready. This is from properties?
+cloud:
+  api-key: ${CLOUD_KEY}
+server:
+  port: 8090
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+server:
+  port: 8083
+app:
+  welcome-text: Hello World from Tedy, this is development server
+  
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+server:
+  port: 8083
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+server:
+  port: 80
