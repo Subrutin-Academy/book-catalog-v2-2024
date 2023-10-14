@@ -1,3 +1,8 @@
+logging:  
+  level:    
+    '[com.subrutin.catalog]': TRACE
+
+
 app:
   currency: IDR
   timezone: Asia/Jakarta
