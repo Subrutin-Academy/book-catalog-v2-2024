@@ -38,8 +38,9 @@ public class GreetingServiceImpl implements GreetingService {
 		log.error("this is log ERROR");
 		System.out.println(cloudProperties.getApiKey());
 		TimeZone timezone = TimeZone.getTimeZone(appProperties.getTimezone());
-		return appProperties.getWelcomeText() + ", our timezone :" + timezone.getDisplayName() + ", our currency:"
-				+ appProperties.getCurrency();	
-		}
+		return appProperties.getWelcomeText()+", our timezone :"+timezone.getDisplayName()+
+				", our currency:"+appProperties.getCurrency();
+	}
+	
 
 }

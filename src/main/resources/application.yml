@@ -18,7 +18,8 @@ spring:
     activate:
       on-profile: development
 server:
-  port: 8083
+  port: 8003
+  
 app:
   welcome-text: Hello World from Tedy, this is development server
   
