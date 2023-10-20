@@ -9,9 +9,11 @@ import com.subrutin.catalog.repository.BookRepository;
 import com.subrutin.catalog.service.BookService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 
+@Slf4j
 @AllArgsConstructor
 @Service("bookService")
 public class BookServiceImpl implements BookService{

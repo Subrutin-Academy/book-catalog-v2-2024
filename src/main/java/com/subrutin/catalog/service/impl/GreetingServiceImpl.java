@@ -10,10 +10,14 @@ import org.springframework.stereotype.Service;
 import com.subrutin.catalog.config.ApplicationProperties;
 import com.subrutin.catalog.config.CloudProperties;
 import com.subrutin.catalog.service.GreetingService;
+import com.subrutin.catalog.web.HelloResources;
 
 @Service
 public class GreetingServiceImpl implements GreetingService {
 
+	Logger log = LoggerFactory.getLogger(GreetingServiceImpl.class);
+
+	
 	private ApplicationProperties appProperties;
 
 	private CloudProperties cloudProperties;
@@ -27,6 +31,11 @@ public class GreetingServiceImpl implements GreetingService {
 	
 	@Override
 	public String sayGreeting() {
+		log.trace("this is log TRACE");
+		log.debug("this is log DEBUG");
+		log.info("this is log INFO");
+		log.warn("this is log WARN");
+		log.error("this is log ERROR");
 		System.out.println(cloudProperties.getApiKey());
 		TimeZone timezone = TimeZone.getTimeZone(appProperties.getTimezone());
 		return appProperties.getWelcomeText() + ", our timezone :" + timezone.getDisplayName() + ", our currency:"
