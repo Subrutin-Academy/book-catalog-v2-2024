@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.subrutin.catalog.dto.BookDetailDTO;
 import com.subrutin.catalog.service.BookService;
-import com.subrutin.catalog.service.impl.GreetingServiceImpl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +26,9 @@ public class BookResource {
 	public BookDetailDTO findBookDetail(@PathVariable("bookId") Long id) {
 		StopWatch stopWatch = new StopWatch();
 		log.info("start findBookDetail "+id);
+		stopWatch.start();
 		BookDetailDTO result =  bookService.findBookDetailById(id);
-		log.info("finish findBookDetail. execution time = {}",stopWatch);
+		log.info("finish findBookDetail. execution time = {}",stopWatch.getTotalTimeMillis());
 		return result;
 
 	}

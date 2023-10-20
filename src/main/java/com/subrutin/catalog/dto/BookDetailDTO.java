@@ -5,8 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class BookDetailDTO implements Serializable{
-
+public class BookDetailDTO implements Serializable {
 	
 	/**
 	 * 
@@ -20,5 +19,8 @@ public class BookDetailDTO implements Serializable{
 	private String bookTitle;
 	
 	private String bookDescription;
+
+	
+	
 
 }
