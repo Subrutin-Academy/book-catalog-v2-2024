@@ -20,9 +20,11 @@ public class HelloResources {
 		this.greetingService = greetingService;
 	}
 
+
+
+
 	@GetMapping("/hello")
 	public String helloWorld() {
-		
 		log.trace("this is log TRACE");
 		log.debug("this is log DEBUG");
 		log.info("this is log INFO");

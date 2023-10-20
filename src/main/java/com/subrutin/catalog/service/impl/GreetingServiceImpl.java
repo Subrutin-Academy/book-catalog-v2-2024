@@ -19,16 +19,20 @@ public class GreetingServiceImpl implements GreetingService {
 
 	
 	private ApplicationProperties appProperties;
-
+	
+	
 	private CloudProperties cloudProperties;
-
+	
+	
+	
 	public GreetingServiceImpl(ApplicationProperties appProperties, CloudProperties cloudProperties) {
 		super();
 		this.appProperties = appProperties;
 		this.cloudProperties = cloudProperties;
 	}
 
-	
+
+
 	@Override
 	public String sayGreeting() {
 		log.trace("this is log TRACE");

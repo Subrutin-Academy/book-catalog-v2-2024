@@ -20,8 +20,6 @@ public class BookResource {
 	
 	private final BookService bookService;
 
-
-
 	@GetMapping("/book/{bookId}")
 	public BookDetailDTO findBookDetail(@PathVariable("bookId") Long id) {
 		StopWatch stopWatch = new StopWatch();
