@@ -9,11 +9,18 @@
 		<table>
 			<tr>
 				<td>Title :</td>
-				<td><input name="title" type="text" th:field="*{bookTitle}"></td>
+				<td>
+					<input name="title" type="text" th:field="*{bookTitle}">
+					<div th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}" style="color: red;"></div>
+				</td>
 			</tr>
 			<tr>
 				<td>Author Name :</td>
-				<td><input name="author" type="text" th:field="*{authorName}"></td>
+				<td>
+					<input name="author" type="text" th:field="*{authorName}">
+					<div th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}" style="color: red;"></div>
+
+				</td>
 			</tr>
 			<tr>
 				<td>Description :</td>
