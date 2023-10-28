@@ -1,6 +1,7 @@
 package com.subrutin.catalog.web;
 
 import java.net.URI;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,4 +45,15 @@ public class BookResource {
 		bookService.createNewBook(dto);
 		return ResponseEntity.created(URI.create("/book")).build();
 	}
+	
+	@GetMapping("/book")
+	public ResponseEntity<List<BookDetailDTO>> findBookList(){
+		return ResponseEntity.ok().body(bookService.findBookListDetail());
+		
+	}
+	
+	//PUT /book
+	
+	//DELETE /book
+	
 }
