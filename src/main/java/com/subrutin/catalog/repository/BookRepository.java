@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.subrutin.catalog.domain.Book;
+import com.subrutin.catalog.dto.BookQueryDTO;
 
 public interface BookRepository extends JpaRepository<Book, Long>{
 	
@@ -20,13 +21,14 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	
 	
 	//SELECT b FROM book b INNER JOIN publisher p ON p.id = b.publisher_id WHERE p.name = :publisherName AND b.title= :bookTitle
-	@Query("SELECT DISTINCT b FROM Book b "
+	@Query("SELECT DISTINCT new com.subrutin.catalog.dto.BookQueryDTO(b.id,b.secureId, b.title, p.name, b.description ) "
+			+ "FROM Book b "
 			+ "INNER JOIN Publisher p ON p.id = b.publisher.id "
 			+ "JOIN  b.authors ba "
 			+ "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%',:publisherName,'%'))"
 			+ " AND LOWER(b.title) LIKE LOWER(CONCAT('%',:bookTitle,'%')) "
 			+ "AND LOWER(ba.name) LIKE LOWER(CONCAT('%',:authorName,'%'))")
-	public Page<Book> findBookList(String bookTitle, String publisherName, String authorName, Pageable pageable);
+	public Page<BookQueryDTO> findBookList(String bookTitle, String publisherName, String authorName, Pageable pageable);
 	
 //	
 //	public List<Book> findAll();

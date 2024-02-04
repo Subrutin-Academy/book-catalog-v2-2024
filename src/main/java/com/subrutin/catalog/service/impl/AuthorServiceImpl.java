@@ -1,6 +1,8 @@
 package com.subrutin.catalog.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.subrutin.catalog.domain.Address;
 import com.subrutin.catalog.domain.Author;
 import com.subrutin.catalog.dto.AuthorCreateRequestDTO;
+import com.subrutin.catalog.dto.AuthorQueryDTO;
 import com.subrutin.catalog.dto.AuthorResponseDTO;
 import com.subrutin.catalog.dto.AuthorUpdateRequestDTO;
 import com.subrutin.catalog.exception.BadRequestException;
@@ -122,6 +125,24 @@ public class AuthorServiceImpl implements AuthorService {
 			dto.setBirthDate(a.getBirthDate().toEpochDay());
 			return dto;
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public Map<Long, List<String>> findAuthorMaps(List<Long> bookIdList) {
+		List<AuthorQueryDTO> queryList =  authorRepository.findAuthorsByBookIdList(bookIdList);
+		Map<Long, List<String>> authorMap = new HashMap<>();
+		List<String> authorList = null;
+		for(AuthorQueryDTO q:queryList) {
+			if(!authorMap.containsKey(q.getBookId())) {
+				authorList = new ArrayList<>();
+			}else {
+				authorList = authorMap.get(q.getBookId());
+			}
+			
+			authorList.add(q.getAuthorName());
+			authorMap.put(q.getBookId(), authorList);
+		}
+		return authorMap;
 	}
 
 }

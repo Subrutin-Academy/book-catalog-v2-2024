@@ -1,6 +1,7 @@
 package com.subrutin.catalog.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import com.subrutin.catalog.domain.Publisher;
 import com.subrutin.catalog.dto.BookCreateRequestDTO;
 import com.subrutin.catalog.dto.BookDetailResponseDTO;
 import com.subrutin.catalog.dto.BookListResponseDTO;
+import com.subrutin.catalog.dto.BookQueryDTO;
 import com.subrutin.catalog.dto.BookUpdateRequestDTO;
 import com.subrutin.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.catalog.exception.BadRequestException;
@@ -133,15 +135,18 @@ public class BookServiceImpl implements BookService{
 			String direction, String publisherName, String bookTitle,String authorName) {
 		Sort sort = Sort.by(new Sort.Order(PaginationUtil.getSortBy(direction),sortBy));
 		Pageable pageable = PageRequest.of(page, limit, sort);
-		Page<Book> pageResult = bookRepository.findBookList(bookTitle, publisherName,authorName, pageable);
+		Page<BookQueryDTO> pageResult = bookRepository.findBookList(bookTitle, publisherName,authorName, pageable);
+		List<Long> idList = pageResult.stream().map(b->b.getId()).collect(Collectors.toList());
+		Map<Long, List<String>> categoryMap = categoryService.findCategoriesMap(idList);
+		Map<Long, List<String>> authorMap =  authorService.findAuthorMaps(idList);
 		List<BookListResponseDTO> dtos = pageResult.stream().map(b->{
 			BookListResponseDTO dto =  new BookListResponseDTO();
-			dto.setAuthorNames(b.getAuthors().stream().map(a->a.getName()).collect(Collectors.toList()));
-			dto.setCategoryCodes(b.getCategories().stream().map(c->c.getCode()).collect(Collectors.toList()));
-			dto.setTitle(b.getTitle());
-			dto.setPublisherName(b.getPublisher().getName());
+			dto.setAuthorNames(authorMap.get(b.getId()));
+			dto.setCategoryCodes(categoryMap.get(b.getId()));
+			dto.setTitle(b.getBookTitle());
+			dto.setPublisherName(b.getPublisherName());
 			dto.setDescription(b.getDescription());
-			dto.setId(b.getSecureId());
+			dto.setId(b.getBookId());
 			return dto;
 		}).collect(Collectors.toList());
 		return PaginationUtil.createResultPageDTO(dtos, pageResult.getTotalElements(), pageResult.getTotalPages());
