@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "author")
+//@DynamicUpdate
 public class Author {
 	
 	//postgre-> bigserial

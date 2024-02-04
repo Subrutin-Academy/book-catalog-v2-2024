@@ -9,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.subrutin.catalog.dto.AuthorCreateRequestDTO;
 import com.subrutin.catalog.dto.AuthorResponseDTO;
+import com.subrutin.catalog.dto.AuthorUpdateRequestDTO;
 import com.subrutin.catalog.service.AuthorService;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +36,14 @@ public class AuthorResource {
 	public ResponseEntity<Void> createNewAuthor(@RequestBody @Valid List<AuthorCreateRequestDTO> dto){
 		authorService.createNewAuthor(dto);
 		return ResponseEntity.created(URI.create("/author")).build();
+	}
+	
+	
+	@PutMapping("/author/{authorId}")
+	public ResponseEntity<Void> updateAuthor(@PathVariable Long authorId, 
+		 @RequestBody AuthorUpdateRequestDTO dto){
+		authorService.updateAuthor(authorId, dto);
+		return ResponseEntity.ok().build();
 	}
 
 }
