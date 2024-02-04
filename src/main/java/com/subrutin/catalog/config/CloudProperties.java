@@ -16,8 +16,4 @@ public class CloudProperties {
 	public void setApiKey(String apiKey) {
 		this.apiKey = apiKey;
 	}
-	
-	
-	
-
 }

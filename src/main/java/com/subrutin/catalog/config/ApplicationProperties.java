@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "app")
 public class ApplicationProperties {
-	
+
 	private String welcomeText;
-	
+
 	private String timezone;
-	
+
 	private String currency;
 
 	public String getWelcomeText() {
