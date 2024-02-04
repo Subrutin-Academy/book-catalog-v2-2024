@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.subrutin.catalog.dto.BookCreateDTO;
+import com.subrutin.catalog.dto.BookCreateRequestDTO;
 import com.subrutin.catalog.dto.BookDetailDTO;
 import com.subrutin.catalog.dto.BookUpdateRequestDTO;
 import com.subrutin.catalog.service.BookService;
@@ -44,7 +44,7 @@ public class BookResource {
 	
 	//nama yang salah /save-book /create-book
 	@PostMapping("/book")
-	public ResponseEntity<Void> createANewBook(@RequestBody BookCreateDTO dto){
+	public ResponseEntity<Void> createANewBook(@RequestBody BookCreateRequestDTO dto){
 		bookService.createNewBook(dto);
 		return ResponseEntity.created(URI.create("/book")).build();
 	}

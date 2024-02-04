@@ -26,7 +26,8 @@ public class AuthorServiceImpl implements AuthorService {
 	public AuthorResponseDTO findAuthorById(String id) {
 		// TODO Auto-generated method stub
 		// 1. fetch data from databse
-		Author author = authorRepository.findBySecureId(id).orElseThrow(() -> new BadRequestException("invalid.authorId"));
+		Author author = authorRepository.findBySecureId(id)
+				.orElseThrow(() -> new BadRequestException("invalid.authorId"));
 		// 2. author -> authorResponseDTO
 		AuthorResponseDTO dto = new AuthorResponseDTO();
 		dto.setAuthorName(author.getName());
@@ -79,6 +80,14 @@ public class AuthorServiceImpl implements AuthorService {
 //		// 2. update deleted=true
 //		author.setDeleted(Boolean.TRUE);
 //		authorRepository.save(author);
+	}
+
+	@Override
+	public List<Author> findAuthors(List<String> authorIdList) {
+		List<Author> authors = authorRepository.findBySecureIdIn(authorIdList);
+		if (authors.isEmpty())
+			throw new BadRequestException("author cant empty");
+		return authors;
 	}
 
 }

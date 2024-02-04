@@ -41,9 +41,12 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public void updatePublisher(String publisherId, PublisherUpdateRequestDTO dto) {
 		Publisher publisher = publisherRepository.findBySecureId(publisherId)
-		.orElseThrow(()-> new BadRequestException("invalid.publisher_id"));
-		publisher.setName(dto.getPublisherName()==null|| dto.getPublisherName().isBlank()?publisher.getName():dto.getPublisherName());
-		publisher.setCompanyName(dto.getCompanyName()==null|| dto.getCompanyName().isBlank()?publisher.getCompanyName():dto.getCompanyName());
+				.orElseThrow(() -> new BadRequestException("invalid.publisher_id"));
+		publisher.setName(dto.getPublisherName() == null || dto.getPublisherName().isBlank() ? publisher.getName()
+				: dto.getPublisherName());
+		publisher.setCompanyName(
+				dto.getCompanyName() == null || dto.getCompanyName().isBlank() ? publisher.getCompanyName()
+						: dto.getCompanyName());
 		publisher.setAddress(dto.getAddress());
 		
 		publisherRepository.save(publisher);
@@ -66,6 +69,12 @@ public class PublisherServiceImpl implements PublisherService {
 			return dto;
 		}).collect(Collectors.toList());
 		return PaginationUtil.createResultPageDTO(dtos, pageResult.getTotalElements(), pageResult.getTotalPages());
+	}
+
+	@Override
+	public Publisher findPublisher(String publisherId) {
+		return publisherRepository.findBySecureId(publisherId)
+				.orElseThrow(() -> new BadRequestException("invalid.publisher_id"));
 	}
 
 }
