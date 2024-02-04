@@ -2,12 +2,10 @@ package com.subrutin.catalog.dto;
 
 import java.io.Serializable;
 
-import jakarta.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.subrutin.catalog.annotation.LogThisArg;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 //@LogThisArg
@@ -20,10 +18,10 @@ public class PublisherCreateRequestDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 6264675048939616940L;
 
-	@NotBlank
+	@NotBlank(message = "publisher.must.not.blank")
 	private String publisherName;
 	
-	@NotBlank
+	@NotBlank(message = "company_name.must.not.blank")
 	private String companyName;
 	
 	private String address;
