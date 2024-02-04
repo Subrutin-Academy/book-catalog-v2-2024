@@ -11,6 +11,7 @@ import com.subrutin.catalog.dto.AuthorCreateRequestDTO;
 import com.subrutin.catalog.dto.AuthorResponseDTO;
 import com.subrutin.catalog.dto.AuthorUpdateRequestDTO;
 import com.subrutin.catalog.exception.BadRequestException;
+import com.subrutin.catalog.exception.ResourceNotFoundException;
 import com.subrutin.catalog.repository.AuthorRepository;
 import com.subrutin.catalog.service.AuthorService;
 
@@ -27,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
 		// TODO Auto-generated method stub
 		// 1. fetch data from databse
 		Author author = authorRepository.findBySecureId(id)
-				.orElseThrow(() -> new BadRequestException("invalid.authorId"));
+				.orElseThrow(() -> new ResourceNotFoundException("invalid.authorId"));
 		// 2. author -> authorResponseDTO
 		AuthorResponseDTO dto = new AuthorResponseDTO();
 		dto.setAuthorName(author.getName());
