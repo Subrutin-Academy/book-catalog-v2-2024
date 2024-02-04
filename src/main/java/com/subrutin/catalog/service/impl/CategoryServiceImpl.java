@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.subrutin.catalog.domain.Category;
+import com.subrutin.catalog.dto.CategoryCreateUpdateRecordDTO;
 import com.subrutin.catalog.dto.CategoryCreateUpdateRequestDTO;
 import com.subrutin.catalog.dto.CategoryListResponseDTO;
 import com.subrutin.catalog.dto.CategoryQueryDTO;
@@ -32,13 +33,13 @@ public class CategoryServiceImpl implements CategoryService {
 	private final CategoryRepository categoryRepository;
 
 	@Override
-	public void createAndUpdateCategory(CategoryCreateUpdateRequestDTO dto) {
-		 Category category =  categoryRepository.findByCode(dto.getCode().toLowerCase()).orElse(new Category());
+	public void createAndUpdateCategory(CategoryCreateUpdateRecordDTO dto) {
+		 Category category =  categoryRepository.findByCode(dto.code().toLowerCase()).orElse(new Category());
 		 if(category.getCode()==null) {
-			 category.setCode(dto.getCode().toLowerCase()); //new 
+			 category.setCode(dto.code().toLowerCase()); //new 
 		 }
-		 category.setName(dto.getName());
-		 category.setDescription(dto.getDescription());
+		 category.setName(dto.name());
+		 category.setDescription(dto.description());
 		 
 		 categoryRepository.save(category);
 	}
