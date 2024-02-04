@@ -3,10 +3,10 @@ package com.subrutin.catalog.domain;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Index;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Index;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
 
 import lombok.Data;
 
