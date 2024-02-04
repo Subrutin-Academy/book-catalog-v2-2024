@@ -1,4 +1,4 @@
-package com.subrutin.catalog.repository.impl;
+package com.subrutin.catalog.service.impl;
 
 import org.springframework.stereotype.Service;
 
