@@ -37,6 +37,7 @@ public class BookResource {
 		log.info("start findBookDetail "+id);
 		stopWatch.start();
 		BookDetailResponseDTO result =  bookService.findBookDetailById(id);
+		stopWatch.stop();
 		log.info("finish findBookDetail. execution time = {}",stopWatch.getTotalTimeMillis());
 		return ResponseEntity.ok(result);
 
