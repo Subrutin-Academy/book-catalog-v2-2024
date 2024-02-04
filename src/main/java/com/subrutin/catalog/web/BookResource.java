@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.subrutin.catalog.dto.BookCreateRequestDTO;
 import com.subrutin.catalog.dto.BookDetailResponseDTO;
+import com.subrutin.catalog.dto.BookListResponseDTO;
 import com.subrutin.catalog.dto.BookUpdateRequestDTO;
+import com.subrutin.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.catalog.service.BookService;
 
 import lombok.AllArgsConstructor;
@@ -49,6 +52,26 @@ public class BookResource {
 		bookService.createNewBook(dto);
 		return ResponseEntity.created(URI.create("/book")).build();
 	}
+	
+	
+	//get boot list ->
+	//1. judul buku
+	//2. nama penerbit //table publisher
+	//3. nama penulis //table author
+	
+	@GetMapping("/v2/book")
+	public ResponseEntity<ResultPageResponseDTO<BookListResponseDTO>> findBookList(
+			@RequestParam(name = "page", required = true, defaultValue = "0") Integer page, 
+			@RequestParam(name = "limit", required = true, defaultValue = "10") Integer limit, 
+			@RequestParam(name = "sortBy", required = true, defaultValue = "title") String sortBy,
+			@RequestParam(name = "direction",required = true, defaultValue = "asc") String direction,
+			@RequestParam(name = "bookTitle",required = false, defaultValue = "") String bookTitle,
+			@RequestParam(name = "publisherName",required = false, defaultValue = "") String publisherName,
+			@RequestParam(name = "authorName",required = false, defaultValue = "") String authorName){
+		return ResponseEntity.ok().body(bookService.findBookList(page, limit, sortBy, direction, publisherName, bookTitle, authorName));
+		
+	}
+	
 	
 	@GetMapping("/v1/book")
 	public ResponseEntity<List<BookDetailResponseDTO>> findBookList(){
