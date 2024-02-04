@@ -60,14 +60,24 @@ public class AuthorServiceImpl implements AuthorService {
 
 	}
 
+	// oracle db -> flashback technologies
+	// softdelete
 	@Override
 	public void deleteAuthor(Long authorId) {
-		//1 select data 
-		//2 delete
-		//or
-		//1 delete 
+		// 1 select data
+		// 2 delete
+		// or
+		// 1 delete (harddelete)
 		authorRepository.deleteById(authorId);
-		
+
+		// softdelete
+		// 1. select data deleted=false
+//		Author author = authorRepository.findByIdAndDeletedFalse(authorId)
+//				.orElseThrow(() -> new BadRequestException("invalid.authorId"));
+//
+//		// 2. update deleted=true
+//		author.setDeleted(Boolean.TRUE);
+//		authorRepository.save(author);
 	}
 
 }
