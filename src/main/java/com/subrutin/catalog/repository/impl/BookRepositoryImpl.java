@@ -38,4 +38,11 @@ public class BookRepositoryImpl implements BookRepository{
 		
 	}
 
+
+	@Override
+	public void update(Book book) {
+		bookMap.put(book.getId(), book);
+		
+	}
+
 }
