@@ -64,12 +64,12 @@ public class LoggingAspect {
 
 		
 		try {
-			log.info("start {}.{} ",jointPoint.getTarget().getClass().getName(),jointPoint.getSignature().getName());
+			log.info("********** start {}.{} **********",jointPoint.getTarget().getClass().getName(),jointPoint.getSignature().getName());
 			stopWatch.start();
 			return jointPoint.proceed();
 		} finally {
 			stopWatch.stop();
-			log.info("finish {}.{}  execution time = {}",jointPoint.getTarget().getClass().getName(),
+			log.info("********** finish {}.{}  execution time = {} **********",jointPoint.getTarget().getClass().getName(),
 					jointPoint.getSignature().getName(),
 					stopWatch.getTotalTimeMillis());
 		}

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,10 @@ import com.subrutin.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.catalog.exception.BadRequestException;
 import com.subrutin.catalog.service.PublisherService;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 
+@Validated
 @AllArgsConstructor
 @RestController
 public class PublisherResource {
@@ -39,7 +42,8 @@ public class PublisherResource {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/v1/publisher/{publisherId}")
-	public ResponseEntity<Void> updatePublisher(@PathVariable String publisherId,
+	public ResponseEntity<Void> updatePublisher(@PathVariable 
+			@Size(max = 36, min = 36, message = "publiher.id.not.uuid") String publisherId,
 			@RequestBody @Valid PublisherUpdateRequestDTO dto) {
 		publisherService.updatePublisher(publisherId, dto);
 		return ResponseEntity.ok().build();
