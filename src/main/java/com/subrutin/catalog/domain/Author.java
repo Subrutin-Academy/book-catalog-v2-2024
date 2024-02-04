@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "author")
 public class Author {
 	
+	//postgre-> bigserial
+	//mysql->autoincrement
+	//strategy -> identity
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
