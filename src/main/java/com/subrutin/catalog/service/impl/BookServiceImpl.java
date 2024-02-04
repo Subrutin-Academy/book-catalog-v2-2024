@@ -13,7 +13,7 @@ import com.subrutin.catalog.domain.Book;
 import com.subrutin.catalog.domain.Category;
 import com.subrutin.catalog.domain.Publisher;
 import com.subrutin.catalog.dto.BookCreateRequestDTO;
-import com.subrutin.catalog.dto.BookDetailDTO;
+import com.subrutin.catalog.dto.BookDetailResponseDTO;
 import com.subrutin.catalog.dto.BookUpdateRequestDTO;
 import com.subrutin.catalog.exception.BadRequestException;
 import com.subrutin.catalog.repository.AuthorRepository;
@@ -42,12 +42,14 @@ public class BookServiceImpl implements BookService{
 	private final PublisherService publisherService;
 
 	@Override
-	public BookDetailDTO findBookDetailById(Long bookId) {
-		Book book = bookRepository.findById(bookId)
+	public BookDetailResponseDTO findBookDetailById(String bookId) {
+		Book book = bookRepository.findBySecureId(bookId)
 				.orElseThrow(()-> new BadRequestException("book_id.invalid"));
-		BookDetailDTO dto = new BookDetailDTO();
-		dto.setBookId(book.getId());
-//		dto.setAuthorName(book.getAuthor().getName());
+		BookDetailResponseDTO dto = new BookDetailResponseDTO();
+		dto.setBookId(book.getSecureId());
+		dto.setCategories(categoryService.constructDTO(book.getCategories()));
+		dto.setAuthors(authorService.constructDTO(book.getAuthors()));
+		dto.setPublisher(publisherService.constructDTO(book.getPublisher()));
 		dto.setBookTitle(book.getTitle());
 		dto.setBookDescription(book.getDescription());
 		return dto;
@@ -55,13 +57,13 @@ public class BookServiceImpl implements BookService{
 
 
 	@Override
-	public List<BookDetailDTO> findBookListDetail() {
+	public List<BookDetailResponseDTO> findBookListDetail() {
 		List<Book> books = bookRepository.findAll();
 		return books.stream().map((b)->{
-			BookDetailDTO dto = new BookDetailDTO();
+			BookDetailResponseDTO dto = new BookDetailResponseDTO();
 //			dto.setAuthorName(b.getAuthor().getName());
 			dto.setBookDescription(b.getDescription());
-			dto.setBookId(b.getId());
+//			dto.setBookId(b.getId());
 			dto.setBookTitle(b.getTitle());
 			return dto;
 		}).collect(Collectors.toList());

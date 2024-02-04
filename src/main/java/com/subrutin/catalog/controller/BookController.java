@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.subrutin.catalog.dto.BookCreateRequestDTO;
-import com.subrutin.catalog.dto.BookDetailDTO;
+import com.subrutin.catalog.dto.BookDetailResponseDTO;
 import com.subrutin.catalog.service.BookService;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class BookController {
 
 	@GetMapping("/list")
 	public String findBookList(Model model) {
-		List<BookDetailDTO> books = bookService.findBookListDetail();
+		List<BookDetailResponseDTO> books = bookService.findBookListDetail();
 		model.addAttribute("books", books);
 		return "book/list";
 	}

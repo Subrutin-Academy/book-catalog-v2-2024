@@ -3,14 +3,14 @@ package com.subrutin.catalog.service;
 import java.util.List;
 
 import com.subrutin.catalog.dto.BookCreateRequestDTO;
-import com.subrutin.catalog.dto.BookDetailDTO;
+import com.subrutin.catalog.dto.BookDetailResponseDTO;
 import com.subrutin.catalog.dto.BookUpdateRequestDTO;
 
 public interface BookService {
 	
-	public BookDetailDTO findBookDetailById(Long bookId);
+	public BookDetailResponseDTO findBookDetailById(String bookId);
 	
-	public List<BookDetailDTO> findBookListDetail();
+	public List<BookDetailResponseDTO> findBookListDetail();
 	
 	public void createNewBook(BookCreateRequestDTO dto);
 	
