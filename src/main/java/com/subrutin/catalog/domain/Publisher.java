@@ -23,8 +23,8 @@ public class Publisher extends AbstractBaseEntity {/**
 	private static final long serialVersionUID = -3729325249054365078L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "publisher_generator" )
-	@SequenceGenerator(name = "publisher_generator", sequenceName = "publisher_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "publisher_generator")
+	@SequenceGenerator(name = "publisher_generator", sequenceName = "publisher_id_seq", allocationSize = 1, initialValue = 1)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)
