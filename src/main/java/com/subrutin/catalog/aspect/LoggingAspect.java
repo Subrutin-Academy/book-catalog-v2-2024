@@ -18,7 +18,13 @@ public class LoggingAspect {
 	@Pointcut("within(com.subrutin.catalog.web.*)")
 	private void withinPointcutExample() {}
 	
-	@Before("withinPointcutExample()")
+	@Pointcut("args(com.subrutin.catalog.dto.PublisherCreateRequestDTO)")
+	private void argsPointcutExample() {}
+	
+	@Pointcut("@args(com.subrutin.catalog.annotation.LogThisArg)")
+	private void argsAnnotationPointcutExample() {}
+	
+	@Before("restAPI() && argsAnnotationPointcutExample()")
 	public void beforeExecutedLogging() {
 		log.info("this is log from aspect");
 	}

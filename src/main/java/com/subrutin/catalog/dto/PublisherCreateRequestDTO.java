@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.subrutin.catalog.annotation.LogThisArg;
 
 import lombok.Data;
 
+//@LogThisArg
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PublisherCreateRequestDTO implements Serializable{
