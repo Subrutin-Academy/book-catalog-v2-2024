@@ -65,16 +65,21 @@ public class AuthorServiceImpl implements AuthorService {
 	public void updateAuthor(String authorId, AuthorUpdateRequestDTO dto) {
 		Author author = authorRepository.findBySecureId(authorId)
 				.orElseThrow(() -> new BadRequestException("invalid.authorId"));
-		Map<Long, Address> addrMap =  author.getAddresses().stream().map(a->a).collect(Collectors.toMap(Address::getId, Function.identity()));
+		Map<Long, Address> addressMap = author.getAddresses().stream().map(a -> a)
+				.collect(Collectors.toMap(Address::getId, Function.identity()));
 		List<Address> addresses= dto.getAddresses().stream().map(a->{
-			Address address =  addrMap.get(a.getAddressId());
+			Address address =  addressMap.get(a.getAddressId());
 			address.setCityName(a.getCityName());
-			return address; 
+			address.setStreetName(a.getStreetName());
+			address.setZipCode(a.getZipCode());
+			return address;
+
 		}).collect(Collectors.toList());
+		author.setAddresses(addresses);
 		author.setName(dto.getAuthorName() == null ? author.getName() : dto.getAuthorName());
 		author.setBirthDate(
 				dto.getBirthDate() == null ? author.getBirthDate() : LocalDate.ofEpochDay(dto.getBirthDate()));
-		author.setAddresses(addresses);
+
 		authorRepository.save(author);
 
 	}
