@@ -23,7 +23,7 @@ public class Author {
 	//mysql->autoincrement
 	//strategy -> identity
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
 	@Column(name = "author_name", nullable = false, columnDefinition = "varchar(300)")
