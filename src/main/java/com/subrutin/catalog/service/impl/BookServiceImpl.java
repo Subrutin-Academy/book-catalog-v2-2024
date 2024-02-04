@@ -43,13 +43,27 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public BookDetailResponseDTO findBookDetailById(String bookId) {
+		log.info("=== start get data book ===");
+
 		Book book = bookRepository.findBySecureId(bookId)
 				.orElseThrow(()-> new BadRequestException("book_id.invalid"));
+		
+		log.info("=== finish get data book ===");
+
 		BookDetailResponseDTO dto = new BookDetailResponseDTO();
 		dto.setBookId(book.getSecureId());
+		log.info("=== start get data category ===");
 		dto.setCategories(categoryService.constructDTO(book.getCategories()));
+		log.info("=== finish get data category ===");
+
+		log.info("=== start get data author ===");
 		dto.setAuthors(authorService.constructDTO(book.getAuthors()));
+		log.info("=== finish get data author ===");
+
+		log.info("=== start get data publisher ===");
 		dto.setPublisher(publisherService.constructDTO(book.getPublisher()));
+		log.info("=== finish get data publisher ===");
+
 		dto.setBookTitle(book.getTitle());
 		dto.setBookDescription(book.getDescription());
 		return dto;
