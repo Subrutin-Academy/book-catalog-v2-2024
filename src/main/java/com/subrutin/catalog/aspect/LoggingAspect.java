@@ -12,10 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 public class LoggingAspect {
 	
-	@Pointcut("execution(* com.subrutin.catalog.web.BookResource.findBookDetail(..))")
+	@Pointcut("execution(* com.subrutin.catalog.web.*.*(..))")
 	private void restAPI() {}
 	
-	@Before("restAPI()")
+	@Pointcut("within(com.subrutin.catalog.web.*)")
+	private void withinPointcutExample() {}
+	
+	@Before("withinPointcutExample()")
 	public void beforeExecutedLogging() {
 		log.info("this is log from aspect");
 	}
