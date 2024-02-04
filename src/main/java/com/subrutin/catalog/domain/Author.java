@@ -33,6 +33,7 @@ public class Author {
 	//strategy sequence -> pros: enable batch insert
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+//	@SequenceGenerator(name = "author_generator", sequenceName = "author_id_seq")
 	private Long id;
 	
 	@Column(name = "author_name", nullable = false, columnDefinition = "varchar(300)")
