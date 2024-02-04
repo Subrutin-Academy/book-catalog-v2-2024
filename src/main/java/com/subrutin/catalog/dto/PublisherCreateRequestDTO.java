@@ -10,7 +10,6 @@ import com.subrutin.catalog.annotation.LogThisArg;
 
 import lombok.Data;
 
-//@LogThisArg
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PublisherCreateRequestDTO implements Serializable{
