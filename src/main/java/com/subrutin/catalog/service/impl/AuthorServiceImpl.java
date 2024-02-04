@@ -44,7 +44,6 @@ public class AuthorServiceImpl implements AuthorService {
 			return author;
 		}).collect(Collectors.toList());
 
-		
 		authorRepository.saveAll(authors);
 	}
 
@@ -55,7 +54,7 @@ public class AuthorServiceImpl implements AuthorService {
 		author.setName(dto.getAuthorName() == null ? author.getName() : dto.getAuthorName());
 		author.setBirthDate(
 				dto.getBirthDate() == null ? author.getBirthDate() : LocalDate.ofEpochDay(dto.getBirthDate()));
-		
+
 		authorRepository.save(author);
 
 	}
