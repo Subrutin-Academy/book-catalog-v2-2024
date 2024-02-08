@@ -27,7 +27,7 @@ public class UsernamePasswordAuthProcessingFilter extends AbstractAuthentication
 	
 	private final AuthenticationFailureHandler failureHandler;
 
-	protected UsernamePasswordAuthProcessingFilter(String defaultFilterProcessesUrl, ObjectMapper objectMapper, AuthenticationSuccessHandler successHandler, 
+	public UsernamePasswordAuthProcessingFilter(String defaultFilterProcessesUrl, ObjectMapper objectMapper, AuthenticationSuccessHandler successHandler, 
 			AuthenticationFailureHandler failureHandler) {
 		super(defaultFilterProcessesUrl);
 		this.objectMapper = objectMapper;
