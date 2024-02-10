@@ -18,12 +18,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.subrutin.catalog.security.filter.JwtAuthProcessingFilter;
 import com.subrutin.catalog.security.filter.UsernamePasswordAuthProcessingFilter;
 import com.subrutin.catalog.security.handler.UsernamePasswordAuthFailureHandler;
 import com.subrutin.catalog.security.handler.UsernamePasswordAuthSucessHandler;
+import com.subrutin.catalog.security.provider.JwtAuthenticationProvider;
 import com.subrutin.catalog.security.provider.UsernamePasswordAuthProvider;
 import com.subrutin.catalog.security.util.JWTTokenFactory;
+import com.subrutin.catalog.security.util.SkipPathRequestMatcher;
+import com.subrutin.catalog.security.util.TokenExtractor;
 import com.subrutin.catalog.service.AppUserService;
 
 @EnableWebSecurity
@@ -32,12 +39,22 @@ import com.subrutin.catalog.service.AppUserService;
 public class SecurityConfig {
 
 	private final static String AUTH_URL = "/v1/login";
+	private final static String V1_URL = "/v1/**";
+	private final static String V2_URL = "/v2/**";
 
+	private final static List<String> PERMIT_ENDPOINT_LIST= Arrays.asList(AUTH_URL);
+	private final static List<String> AUTHENTICATED_ENDPOINT_LIST= Arrays.asList(V1_URL, V2_URL);
+	
+	
 	@Autowired
 	private UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
+	@Autowired
+	private JwtAuthenticationProvider jwtAuthenticationProvider;
+
 	@Bean
-	public AuthenticationSuccessHandler usernamePasswordAuthSuccessHandler(ObjectMapper objectMapper, JWTTokenFactory jwtTokenFactory) {
+	public AuthenticationSuccessHandler usernamePasswordAuthSuccessHandler(ObjectMapper objectMapper,
+			JWTTokenFactory jwtTokenFactory) {
 		return new UsernamePasswordAuthSucessHandler(objectMapper, jwtTokenFactory);
 	}
 
@@ -48,7 +65,8 @@ public class SecurityConfig {
 
 	@Autowired
 	void registerProvider(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(usernamePasswordAuthProvider);
+		auth.authenticationProvider(usernamePasswordAuthProvider)
+		.authenticationProvider(jwtAuthenticationProvider);
 	}
 
 	@Bean
@@ -67,14 +85,24 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http,
-			UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter) throws Exception {
-		http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated()).csrf(csrf -> csrf.disable())
-				.sessionManagement(
-						(sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.httpBasic(withDefaults());
+	public JwtAuthProcessingFilter jwtAuthProcessingFilter(TokenExtractor tokenExtractor,
+			AuthenticationFailureHandler failureHandler, AuthenticationManager authManager) {
+		SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(PERMIT_ENDPOINT_LIST, AUTHENTICATED_ENDPOINT_LIST);
+		JwtAuthProcessingFilter filter = new JwtAuthProcessingFilter(matcher, tokenExtractor, failureHandler);
+		filter.setAuthenticationManager(authManager);
+		return filter;
+	}
 
-		http.addFilterBefore(usernamePasswordAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class);
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http,
+			UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter,
+			JwtAuthProcessingFilter jwtAuthProcessingFilter) throws Exception {
+		http.authorizeHttpRequests(auth -> auth.requestMatchers(V1_URL, V2_URL).authenticated()).csrf(csrf -> csrf.disable())
+				.sessionManagement(
+						(sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		http.addFilterBefore(usernamePasswordAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class)
+		.addFilterBefore(jwtAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 
 	}
