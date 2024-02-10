@@ -23,6 +23,7 @@ import com.subrutin.catalog.security.filter.UsernamePasswordAuthProcessingFilter
 import com.subrutin.catalog.security.handler.UsernamePasswordAuthFailureHandler;
 import com.subrutin.catalog.security.handler.UsernamePasswordAuthSucessHandler;
 import com.subrutin.catalog.security.provider.UsernamePasswordAuthProvider;
+import com.subrutin.catalog.security.util.JWTTokenFactory;
 import com.subrutin.catalog.service.AppUserService;
 
 @EnableWebSecurity
@@ -36,8 +37,8 @@ public class SecurityConfig {
 	private UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
 	@Bean
-	public AuthenticationSuccessHandler usernamePasswordAuthSuccessHandler(ObjectMapper objectMapper) {
-		return new UsernamePasswordAuthSucessHandler(objectMapper);
+	public AuthenticationSuccessHandler usernamePasswordAuthSuccessHandler(ObjectMapper objectMapper, JWTTokenFactory jwtTokenFactory) {
+		return new UsernamePasswordAuthSucessHandler(objectMapper, jwtTokenFactory);
 	}
 
 	@Bean
