@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.subrutin.catalog.security.model.AnonymousAuthentication;
-import com.subrutin.catalog.security.model.JwtAuthenticationToken;
+import com.subrutin.catalog.security.model.JwtAuthenticatonToken;
 import com.subrutin.catalog.security.model.RawAccessJwtToken;
 import com.subrutin.catalog.security.util.TokenExtractor;
 
@@ -45,16 +45,17 @@ public class JwtAuthProcessingFilter extends AbstractAuthenticationProcessingFil
 		
 		//bungkus object token untuk proses otentikasi
 		RawAccessJwtToken rawToken = new RawAccessJwtToken(jwt);
-		return this.getAuthenticationManager().authenticate(new JwtAuthenticationToken(rawToken));
+
+		return this.getAuthenticationManager().authenticate(new JwtAuthenticatonToken(rawToken));
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		SecurityContext context = SecurityContextHolder.createEmptyContext();
-		context.setAuthentication(authResult);
-		SecurityContextHolder.setContext(context);
-		chain.doFilter(request, response);
+		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+		ctx.setAuthentication(authResult);
+		SecurityContextHolder.setContext(ctx);
+		super.successfulAuthentication(request, response, chain, authResult);
 	}
 
 	@Override
@@ -62,8 +63,8 @@ public class JwtAuthProcessingFilter extends AbstractAuthenticationProcessingFil
 			AuthenticationException failed) throws IOException, ServletException {
 		SecurityContextHolder.clearContext();
 		SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthentication());
-		failureHandler.onAuthenticationFailure(request, response, failed);
 
+		this.failureHandler.onAuthenticationFailure(request, response, failed);
 	}
 	
 	

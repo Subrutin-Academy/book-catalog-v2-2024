@@ -22,7 +22,7 @@ public class JWTTokenFactory {
 
 	public AccessJWTToken createAccessJWTToken(String username, Collection<? extends GrantedAuthority> authorities) {
 		Claims claims = Jwts.claims().subject(username)
-		.add("scope", authorities.stream().map(a->a.getAuthority()).collect(Collectors.toList())).build();
+		.add("scopes", authorities.stream().map(a->a.getAuthority()).collect(Collectors.toList())).build();
 		
 		//waktu kapan token dibuat
 		LocalDateTime currentTime = LocalDateTime.now();
