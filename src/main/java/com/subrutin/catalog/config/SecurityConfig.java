@@ -33,7 +33,7 @@ import com.subrutin.catalog.security.util.SkipPathRequestMatcher;
 import com.subrutin.catalog.security.util.TokenExtractor;
 import com.subrutin.catalog.service.AppUserService;
 
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
@@ -42,7 +42,23 @@ public class SecurityConfig {
 	private final static String V1_URL = "/v1/**";
 	private final static String V2_URL = "/v2/**";
 	
-	private final static List<String> PERMIT_ENDPOINT_LIST = Arrays.asList(AUTH_URL);
+	private final static List<String> PERMIT_ENDPOINT_LIST = Arrays.asList(AUTH_URL,
+            "/swagger-ui.html"
+            , "/swagger-ui/index.html"
+            , "/swagger-ui/index.css"
+            , "/favicon.ico"
+            , "/swagger-ui/swagger-ui.css"
+            , "/swagger-ui/swagger-ui.css.map"
+            , "/swagger-ui/swagger-ui-standalone-preset.js"
+            , "/swagger-ui/swagger-ui-standalone-preset.js.map"
+            , "/swagger-ui/swagger-ui-bundle.js"
+            , "/swagger-ui/swagger-ui-bundle.js.map"
+            , "/swagger-ui/favicon-32x32.png"
+            , "/swagger-ui/favicon-16x16.png"
+            , "/swagger-ui/swagger-initializer.js"
+            , "/v3/api-docs/swagger-config"
+            , "/v3/api-docs"
+            , "/error");
 	private final static List<String> AUTHENTICATED_ENDPOINT_LIST = Arrays.asList(V1_URL, V2_URL);
 
 			
@@ -97,7 +113,11 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
 			UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter,
 			JwtAuthProcessingFilter jwtAuthProcessingFilter) throws Exception {
-		http.authorizeHttpRequests(auth -> auth.requestMatchers(V1_URL, V2_URL).authenticated()).csrf(csrf -> csrf.disable())
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers(PERMIT_ENDPOINT_LIST.toArray(new String[0])).permitAll()
+				.requestMatchers(V1_URL, V2_URL).authenticated()
+				
+				).csrf(csrf -> csrf.disable())
 				.sessionManagement(
 						(sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		

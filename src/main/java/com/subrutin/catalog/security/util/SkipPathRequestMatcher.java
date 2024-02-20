@@ -8,7 +8,9 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SkipPathRequestMatcher implements RequestMatcher {
 
 	private OrRequestMatcher skipMatcher;
@@ -27,6 +29,7 @@ public class SkipPathRequestMatcher implements RequestMatcher {
 
 	@Override
 	public boolean matches(HttpServletRequest request) {
+		log.info(request.getRequestURI());
 		if(skipMatcher.matches(request)) {
 			return false;
 		}
