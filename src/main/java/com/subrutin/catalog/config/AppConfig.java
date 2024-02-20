@@ -4,6 +4,8 @@ import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +26,7 @@ import io.jsonwebtoken.security.Keys;
 public class AppConfig {
 	
 	@Bean
-	public Key key() {
+	public SecretKey key() {
 		byte[] keyBytes = Decoders.BASE64.decode("wqeew12312321123dewr2345345435ertrteert4565644grtrytrytry564ewefsdfddfsfsd");
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
